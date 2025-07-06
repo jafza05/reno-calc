@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Family House Renovation Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .section h2 {
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-group label {
+            min-width: 200px;
+            font-weight: 500;
+        }
+        
+        input[type="number"], select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100px;
+        }
+        
+        select {
+            width: 120px;
+        }
+        
+        .cost-display {
+            background-color: #e8f5e8;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #2e7d32;
+            min-width: 100px;
+            text-align: right;
+        }
+        
+        .total-section {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .total-cost {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+            text-align: center;
+        }
+        
+        .subcategory {
+            margin-left: 20px;
+            padding: 10px;
+            border-left: 3px solid #3498db;
+            background-color: white;
+            margin-bottom: 10px;
+        }
+        
+        .notes {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff3cd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-Family House Renovation Cost Calculator</h1>
+        
+        <!-- Property Overview -->
+        <div class="section">
+            <h2>Property Overview</h2>
+            <div class="input-group">
+                <label>Number of Units:</label>
+                <input type="number" id="units" value="2" min="1" max="10">
+            </div>
+            <div class="input-group">
+                <label>Total Square Footage:</label>
+                <input type="number" id="totalSqft" value="2000" min="500" max="10000">
+            </div>
+        </div>
+
+        <!-- Bathrooms -->
+        <div class="section">
+            <h2>Bathrooms</h2>
+            <div class="input-group">
+                <label>Number of Bathrooms:</label>
+                <input type="number" id="bathroomCount" value="2" min="1" max="20">
+            </div>
+            <div class="subcategory">
+                <h3>Bathroom Renovation Level</h3>
+                <div class="input-group">
+                    <label>Light Refresh (paint, fixtures):</label>
+                    <input type="number" id="bathroomLight" value="0" min="0" max="20">
+                    <span class="cost-display" id="bathroomLightCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Moderate Reno (tile, vanity, toilet):</label>
+                    <input type="number" id="bathroomModerate" value="1" min="0" max="20">
+                    <span class="cost-display" id="bathroomModerateCost">$8,000</span>
+                </div>
+                <div class="input-group">
+                    <label>Full Gut Renovation:</label>
+                    <input type="number" id="bathroomFull" value="1" min="0" max="20">
+                    <span class="cost-display" id="bathroomFullCost">$15,000</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kitchen -->
+        <div class="section">
+            <h2>Kitchen</h2>
+            <div class="input-group">
+                <label>Number of Kitchens:</label>
+                <input type="number" id="kitchenCount" value="2" min="1" max="10">
+            </div>
+            <div class="subcategory">
+                <h3>Kitchen Renovation Level</h3>
+                <div class="input-group">
+                    <label>Light Refresh:</label>
+                    <input type="number" id="kitchenLight" value="0" min="0" max="10">
+                    <span class="cost-display" id="kitchenLightCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Moderate Reno (cabinets, counters):</label>
+                    <input type="number" id="kitchenModerate" value="1" min="0" max="10">
+                    <span class="cost-display" id="kitchenModerateCost">$15,000</span>
+                </div>
+                <div class="input-group">
+                    <label>Full Gut Renovation:</label>
+                    <input type="number" id="kitchenFull" value="1" min="0" max="10">
+                    <span class="cost-display" id="kitchenFullCost">$25,000</span>
+                </div>
+            </div>
+            <div class="subcategory">
+                <h3>Kitchen Modifications</h3>
+                <div class="input-group">
+                    <label>Wall Removal (combine rooms):</label>
+                    <input type="number" id="wallRemoval" value="0" min="0" max="10">
+                    <span class="cost-display" id="wallRemovalCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>New Load-Bearing Support:</label>
+                    <input type="number" id="loadBearing" value="0" min="0" max="5">
+                    <span class="cost-display" id="loadBearingCost">$0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plumbing -->
+        <div class="section">
+            <h2>Plumbing</h2>
+            <div class="input-group">
+                <label>New Main Water Line:</label>
+                <select id="newMainWater">
+                    <option value="0">Not Needed</option>
+                    <option value="1">Needed</option>
+                </select>
+                <span class="cost-display" id="newMainWaterCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>New Sewer Line:</label>
+                <select id="newSewerLine">
+                    <option value="0">Not Needed</option>
+                    <option value="1">Needed</option>
+                </select>
+                <span class="cost-display" id="newSewerLineCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Additional Bathroom Plumbing:</label>
+                <input type="number" id="additionalBathPlumbing" value="0" min="0" max="5">
+                <span class="cost-display" id="additionalBathPlumbingCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Whole House Repipe:</label>
+                <select id="wholeHouseRepipe">
+                    <option value="0">Not Needed</option>
+                    <option value="1">Needed</option>
+                </select>
+                <span class="cost-display" id="wholeHouseRepipeCost">$0</span>
+            </div>
+        </div>
+
+        <!-- Electrical -->
+        <div class="section">
+            <h2>Electrical</h2>
+            <div class="input-group">
+                <label>Panel Upgrade:</label>
+                <select id="panelUpgrade">
+                    <option value="0">Not Needed</option>
+                    <option value="1">200 Amp Panel</option>
+                    <option value="2">400 Amp Panel</option>
+                </select>
+                <span class="cost-display" id="panelUpgradeCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Whole House Rewire:</label>
+                <select id="wholeHouseRewire">
+                    <option value="0">Not Needed</option>
+                    <option value="1">Needed</option>
+                </select>
+                <span class="cost-display" id="wholeHouseRewireCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Additional Circuits:</label>
+                <input type="number" id="additionalCircuits" value="0" min="0" max="20">
+                <span class="cost-display" id="additionalCircuitsCost">$0</span>
+            </div>
+        </div>
+
+        <!-- Basement -->
+        <div class="section">
+            <h2>Basement</h2>
+            <div class="input-group">
+                <label>Basement Dig-Out (sq ft):</label>
+                <input type="number" id="basementDigOut" value="0" min="0" max="2000">
+                <span class="cost-display" id="basementDigOutCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Basement Finishing (sq ft):</label>
+                <input type="number" id="basementFinishing" value="0" min="0" max="2000">
+                <span class="cost-display" id="basementFinishingCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Waterproofing:</label>
+                <select id="waterproofing">
+                    <option value="0">Not Needed</option>
+                    <option value="1">Interior Only</option>
+                    <option value="2">Exterior Waterproofing</option>
+                </select>
+                <span class="cost-display" id="waterproofingCost">$0</span>
+            </div>
+        </div>
+
+        <!-- HVAC -->
+        <div class="section">
+            <h2>HVAC</h2>
+            <div class="input-group">
+                <label>New HVAC Systems:</label>
+                <input type="number" id="newHVAC" value="0" min="0" max="5">
+                <span class="cost-display" id="newHVACCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Ductwork (linear feet):</label>
+                <input type="number" id="ductwork" value="0" min="0" max="500">
+                <span class="cost-display" id="ductworkCost">$0</span>
+            </div>
+        </div>
+
+        <!-- Structural -->
+        <div class="section">
+            <h2>Structural</h2>
+            <div class="input-group">
+                <label>Foundation Repair:</label>
+                <select id="foundationRepair">
+                    <option value="0">Not Needed</option>
+                    <option value="1">Minor Repairs</option>
+                    <option value="2">Major Repairs</option>
+                </select>
+                <span class="cost-display" id="foundationRepairCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Roof Replacement:</label>
+                <select id="roofReplacement">
+                    <option value="0">Not Needed</option>
+                    <option value="1">Partial Roof</option>
+                    <option value="2">Full Roof</option>
+                </select>
+                <span class="cost-display" id="roofReplacementCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Siding Replacement (sq ft):</label>
+                <input type="number" id="sidingReplacement" value="0" min="0" max="5000">
+                <span class="cost-display" id="sidingReplacementCost">$0</span>
+            </div>
+        </div>
+
+        <!-- Roof Modifications & Space Addition -->
+        <div class="section">
+            <h2>Roof Modifications & Space Addition</h2>
+            <div class="subcategory">
+                <h3>Roof Line Alterations</h3>
+                <div class="input-group">
+                    <label>Roof Raise/Square Off (sq ft gained):</label>
+                    <input type="number" id="roofRaise" value="0" min="0" max="1000">
+                    <span class="cost-display" id="roofRaiseCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Dormer Addition (small):</label>
+                    <input type="number" id="dormerSmall" value="0" min="0" max="5">
+                    <span class="cost-display" id="dormerSmallCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Dormer Addition (large/shed):</label>
+                    <input type="number" id="dormerLarge" value="0" min="0" max="3">
+                    <span class="cost-display" id="dormerLargeCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Pop-Top Addition (sq ft):</label>
+                    <input type="number" id="popTop" value="0" min="0" max="1000">
+                    <span class="cost-display" id="popTopCost">$0</span>
+                </div>
+            </div>
+            <div class="subcategory">
+                <h3>Attic Conversion</h3>
+                <div class="input-group">
+                    <label>Attic Finishing (sq ft):</label>
+                    <input type="number" id="atticFinishing" value="0" min="0" max="800">
+                    <span class="cost-display" id="atticFinishingCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Attic Stair Installation:</label>
+                    <select id="atticStairs">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Standard Stairs</option>
+                        <option value="2">Custom/Spiral Stairs</option>
+                    </select>
+                    <span class="cost-display" id="atticStairsCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Skylights:</label>
+                    <input type="number" id="skylights" value="0" min="0" max="10">
+                    <span class="cost-display" id="skylightsCost">$0</span>
+                </div>
+            </div>
+            <div class="notes">
+                <strong>Boston-Specific Notes:</strong> Roof modifications often require permits and structural engineering. Consider setback requirements and height restrictions. Many Boston properties can gain 200-400 sq ft by squaring off sloped roofs.
+            </div>
+        </div>
+
+        <!-- Flooring -->
+        <div class="section">
+            <h2>Flooring</h2>
+            <div class="input-group">
+                <label>Hardwood Refinishing (sq ft):</label>
+                <input type="number" id="hardwoodRefinish" value="0" min="0" max="3000">
+                <span class="cost-display" id="hardwoodRefinishCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>New Flooring (sq ft):</label>
+                <input type="number" id="newFlooring" value="0" min="0" max="3000">
+                <span class="cost-display" id="newFlooringCost">$0</span>
+            </div>
+        </div>
+
+        <!-- Windows & Doors -->
+        <div class="section">
+            <h2>Windows & Doors</h2>
+            <div class="input-group">
+                <label>Window Replacement:</label>
+                <input type="number" id="windowReplacement" value="0" min="0" max="50">
+                <span class="cost-display" id="windowReplacementCost">$0</span>
+            </div>
+            <div class="input-group">
+                <label>Door Replacement:</label>
+                <input type="number" id="doorReplacement" value="0" min="0" max="20">
+                <span class="cost-display" id="doorReplacementCost">$0</span>
+            </div>
+        </div>
+
+        <!-- Totals -->
+        <div class="total-section">
+            <div class="total-cost">
+                Total Estimated Renovation Cost: $<span id="totalCost">48,000</span>
+            </div>
+            <div class="notes">
+                <strong>Notes:</strong> These are rough estimates based on moderate market rates. Actual costs can vary significantly based on location, material choices, contractor rates, and unforeseen issues. Consider adding 15-25% contingency for unexpected costs.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cost constants (in dollars)
+        const COSTS = {
+            bathroomLight: 3500,
+            bathroomModerate: 8000,
+            bathroomFull: 15000,
+            kitchenLight: 5000,
+            kitchenModerate: 15000,
+            kitchenFull: 25000,
+            wallRemoval: 2500,
+            loadBearing: 8000,
+            newMainWater: 3500,
+            newSewerLine: 8000,
+            additionalBathPlumbing: 3500,
+            wholeHouseRepipe: 8000,
+            panelUpgrade: [0, 2500, 4500],
+            wholeHouseRewire: 8000,
+            additionalCircuits: 300,
+            basementDigOut: 150, // per sq ft
+            basementFinishing: 50, // per sq ft
+            waterproofing: [0, 3000, 12000],
+            newHVAC: 5000,
+            ductwork: 15, // per linear foot
+            foundationRepair: [0, 5000, 25000],
+            roofReplacement: [0, 8000, 15000],
+            sidingReplacement: 8, // per sq ft
+            roofRaise: 180, // per sq ft gained
+            dormerSmall: 15000,
+            dormerLarge: 35000,
+            popTop: 200, // per sq ft
+            atticFinishing: 75, // per sq ft
+            atticStairs: [0, 3500, 8000],
+            skylights: 1500,
+            hardwoodRefinish: 5, // per sq ft
+            newFlooring: 8, // per sq ft
+            windowReplacement: 600,
+            doorReplacement: 800
+        };
+
+        function updateCost(elementId, costKey, multiplier = 1) {
+            const element = document.getElementById(elementId);
+            const value = parseInt(element.value) || 0;
+            const cost = Array.isArray(COSTS[costKey]) ? COSTS[costKey][value] : COSTS[costKey] * value * multiplier;
+            document.getElementById(elementId + 'Cost').textContent = '$' + cost.toLocaleString();
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            
+            // Bathroom costs
+            total += (parseInt(document.getElementById('bathroomLight').value) || 0) * COSTS.bathroomLight;
+            total += (parseInt(document.getElementById('bathroomModerate').value) || 0) * COSTS.bathroomModerate;
+            total += (parseInt(document.getElementById('bathroomFull').value) || 0) * COSTS.bathroomFull;
+            
+            // Kitchen costs
+            total += (parseInt(document.getElementById('kitchenLight').value) || 0) * COSTS.kitchenLight;
+            total += (parseInt(document.getElementById('kitchenModerate').value) || 0) * COSTS.kitchenModerate;
+            total += (parseInt(document.getElementById('kitchenFull').value) || 0) * COSTS.kitchenFull;
+            total += (parseInt(document.getElementById('wallRemoval').value) || 0) * COSTS.wallRemoval;
+            total += (parseInt(document.getElementById('loadBearing').value) || 0) * COSTS.loadBearing;
+            
+            // Plumbing costs
+            total += (parseInt(document.getElementById('newMainWater').value) || 0) * COSTS.newMainWater;
+            total += (parseInt(document.getElementById('newSewerLine').value) || 0) * COSTS.newSewerLine;
+            total += (parseInt(document.getElementById('additionalBathPlumbing').value) || 0) * COSTS.additionalBathPlumbing;
+            total += (parseInt(document.getElementById('wholeHouseRepipe').value) || 0) * COSTS.wholeHouseRepipe;
+            
+            // Electrical costs
+            total += COSTS.panelUpgrade[parseInt(document.getElementById('panelUpgrade').value) || 0];
+            total += (parseInt(document.getElementById('wholeHouseRewire').value) || 0) * COSTS.wholeHouseRewire;
+            total += (parseInt(document.getElementById('additionalCircuits').value) || 0) * COSTS.additionalCircuits;
+            
+            // Basement costs
+            total += (parseInt(document.getElementById('basementDigOut').value) || 0) * COSTS.basementDigOut;
+            total += (parseInt(document.getElementById('basementFinishing').value) || 0) * COSTS.basementFinishing;
+            total += COSTS.waterproofing[parseInt(document.getElementById('waterproofing').value) || 0];
+            
+            // HVAC costs
+            total += (parseInt(document.getElementById('newHVAC').value) || 0) * COSTS.newHVAC;
+            total += (parseInt(document.getElementById('ductwork').value) || 0) * COSTS.ductwork;
+            
+            // Structural costs
+            total += COSTS.foundationRepair[parseInt(document.getElementById('foundationRepair').value) || 0];
+            total += COSTS.roofReplacement[parseInt(document.getElementById('roofReplacement').value) || 0];
+            total += (parseInt(document.getElementById('sidingReplacement').value) || 0) * COSTS.sidingReplacement;
+            
+            // Roof modification costs
+            total += (parseInt(document.getElementById('roofRaise').value) || 0) * COSTS.roofRaise;
+            total += (parseInt(document.getElementById('dormerSmall').value) || 0) * COSTS.dormerSmall;
+            total += (parseInt(document.getElementById('dormerLarge').value) || 0) * COSTS.dormerLarge;
+            total += (parseInt(document.getElementById('popTop').value) || 0) * COSTS.popTop;
+            total += (parseInt(document.getElementById('atticFinishing').value) || 0) * COSTS.atticFinishing;
+            total += COSTS.atticStairs[parseInt(document.getElementById('atticStairs').value) || 0];
+            total += (parseInt(document.getElementById('skylights').value) || 0) * COSTS.skylights;
+            
+            // Flooring costs
+            total += (parseInt(document.getElementById('hardwoodRefinish').value) || 0) * COSTS.hardwoodRefinish;
+            total += (parseInt(document.getElementById('newFlooring').value) || 0) * COSTS.newFlooring;
+            
+            // Windows & Doors costs
+            total += (parseInt(document.getElementById('windowReplacement').value) || 0) * COSTS.windowReplacement;
+            total += (parseInt(document.getElementById('doorReplacement').value) || 0) * COSTS.doorReplacement;
+            
+            document.getElementById('totalCost').textContent = total.toLocaleString();
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const costKey = this.id.replace(/Count$/, '');
+                    if (COSTS[costKey]) {
+                        updateCost(this.id, costKey);
+                    } else {
+                        updateTotal();
+                    }
+                });
+            });
+            
+            // Initial calculation
+            updateTotal();
+        });
+    </script>
+</body>
+</html>
