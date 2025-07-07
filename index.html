@@ -7,101 +7,187 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
             background-color: #f5f5f5;
+            font-size: 14px;
         }
         
         .container {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         h1 {
             color: #2c3e50;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .sections-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .sections-grid.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
         }
         
         .section {
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 0;
+            padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 6px;
             background-color: #f9f9f9;
+            height: fit-content;
         }
         
         .section h2 {
             color: #34495e;
-            margin-top: 0;
-            margin-bottom: 15px;
+            margin: 0 0 10px 0;
+            font-size: 16px;
         }
         
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
         }
         
         .input-group label {
-            min-width: 200px;
+            flex: 1;
             font-weight: 500;
+            font-size: 12px;
+            min-width: 0;
         }
         
-        input[type="number"], select {
-            padding: 8px;
+        .number-input-container {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+        
+        .increment-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        
+        .increment-btn:hover {
+            background: #2980b9;
+        }
+        
+        .increment-btn:active {
+            background: #21618c;
+        }
+        
+        input[type="number"] {
+            padding: 3px 5px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            width: 100px;
+            border-radius: 3px;
+            width: 60px;
+            font-size: 12px;
+            text-align: center;
+            -moz-appearance: textfield;
+        }
+        
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         
         select {
-            width: 120px;
+            width: 80px;
+            padding: 3px 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 12px;
+            flex-shrink: 0;
         }
         
         .cost-display {
             background-color: #e8f5e8;
-            padding: 8px 12px;
-            border-radius: 4px;
+            padding: 3px 6px;
+            border-radius: 3px;
             font-weight: bold;
             color: #2e7d32;
-            min-width: 100px;
+            width: 70px;
             text-align: right;
+            font-size: 11px;
+            flex-shrink: 0;
         }
         
         .total-section {
             background-color: #e3f2fd;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
         }
         
         .total-cost {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #1976d2;
             text-align: center;
         }
         
         .subcategory {
-            margin-left: 20px;
-            padding: 10px;
-            border-left: 3px solid #3498db;
+            margin-left: 10px;
+            padding: 6px;
+            border-left: 2px solid #3498db;
             background-color: white;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
+        }
+        
+        .subcategory h3 {
+            margin: 0 0 6px 0;
+            font-size: 13px;
+            color: #2c3e50;
         }
         
         .notes {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 6px;
+            padding: 6px;
             background-color: #fff3cd;
-            border-radius: 4px;
-            font-size: 14px;
+            border-radius: 3px;
+            font-size: 11px;
             color: #856404;
+        }
+        
+        .property-overview {
+            grid-column: 1 / -1;
+            background-color: #e8f4fd;
+        }
+        
+        @media (max-width: 768px) {
+            .sections-grid {
+                grid-template-columns: 1fr;
+            }
+            .sections-grid.three-col {
+                grid-template-columns: 1fr;
+            }
+            .property-overview {
+                grid-column: 1;
+            }
         }
     </style>
 </head>
@@ -110,294 +196,427 @@
         <h1>Multi-Family House Renovation Cost Calculator</h1>
         
         <!-- Property Overview -->
-        <div class="section">
+        <div class="section property-overview">
             <h2>Property Overview</h2>
             <div class="input-group">
                 <label>Number of Units:</label>
-                <input type="number" id="units" value="2" min="1" max="10">
+                <div class="number-input-container">
+                    <button class="increment-btn" onclick="changeValue('units', -1)">-</button>
+                    <input type="number" id="units" value="2" min="1" max="10">
+                    <button class="increment-btn" onclick="changeValue('units', 1)">+</button>
+                </div>
             </div>
             <div class="input-group">
                 <label>Total Square Footage:</label>
-                <input type="number" id="totalSqft" value="2000" min="500" max="10000">
-            </div>
-        </div>
-
-        <!-- Bathrooms -->
-        <div class="section">
-            <h2>Bathrooms</h2>
-            <div class="input-group">
-                <label>Number of Bathrooms:</label>
-                <input type="number" id="bathroomCount" value="2" min="1" max="20">
-            </div>
-            <div class="subcategory">
-                <h3>Bathroom Renovation Level</h3>
-                <div class="input-group">
-                    <label>Light Refresh (paint, fixtures):</label>
-                    <input type="number" id="bathroomLight" value="0" min="0" max="20">
-                    <span class="cost-display" id="bathroomLightCost">$0</span>
-                </div>
-                <div class="input-group">
-                    <label>Moderate Reno (tile, vanity, toilet):</label>
-                    <input type="number" id="bathroomModerate" value="1" min="0" max="20">
-                    <span class="cost-display" id="bathroomModerateCost">$8,000</span>
-                </div>
-                <div class="input-group">
-                    <label>Full Gut Renovation:</label>
-                    <input type="number" id="bathroomFull" value="1" min="0" max="20">
-                    <span class="cost-display" id="bathroomFullCost">$15,000</span>
+                <div class="number-input-container">
+                    <button class="increment-btn" onclick="changeValue('totalSqft', -100)">-</button>
+                    <input type="number" id="totalSqft" value="2000" min="500" max="10000" step="100">
+                    <button class="increment-btn" onclick="changeValue('totalSqft', 100)">+</button>
                 </div>
             </div>
         </div>
 
-        <!-- Kitchen -->
-        <div class="section">
-            <h2>Kitchen</h2>
-            <div class="input-group">
-                <label>Number of Kitchens:</label>
-                <input type="number" id="kitchenCount" value="2" min="1" max="10">
+        <div class="sections-grid">
+            <!-- Bathrooms -->
+            <div class="section">
+                <h2>Bathrooms</h2>
+                <div class="input-group">
+                    <label>Number of Bathrooms:</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('bathroomCount', -1)">-</button>
+                        <input type="number" id="bathroomCount" value="2" min="1" max="20">
+                        <button class="increment-btn" onclick="changeValue('bathroomCount', 1)">+</button>
+                    </div>
+                </div>
+                <div class="subcategory">
+                    <h3>Renovation Level</h3>
+                    <div class="input-group">
+                        <label>Light Refresh:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('bathroomLight', -1)">-</button>
+                            <input type="number" id="bathroomLight" value="0" min="0" max="20">
+                            <button class="increment-btn" onclick="changeValue('bathroomLight', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="bathroomLightCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Moderate Reno:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('bathroomModerate', -1)">-</button>
+                            <input type="number" id="bathroomModerate" value="1" min="0" max="20">
+                            <button class="increment-btn" onclick="changeValue('bathroomModerate', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="bathroomModerateCost">$8,000</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Full Gut:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('bathroomFull', -1)">-</button>
+                            <input type="number" id="bathroomFull" value="1" min="0" max="20">
+                            <button class="increment-btn" onclick="changeValue('bathroomFull', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="bathroomFullCost">$15,000</span>
+                    </div>
+                </div>
             </div>
-            <div class="subcategory">
-                <h3>Kitchen Renovation Level</h3>
+
+            <!-- Kitchen -->
+            <div class="section">
+                <h2>Kitchen</h2>
                 <div class="input-group">
-                    <label>Light Refresh:</label>
-                    <input type="number" id="kitchenLight" value="0" min="0" max="10">
-                    <span class="cost-display" id="kitchenLightCost">$0</span>
+                    <label>Number of Kitchens:</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('kitchenCount', -1)">-</button>
+                        <input type="number" id="kitchenCount" value="2" min="1" max="10">
+                        <button class="increment-btn" onclick="changeValue('kitchenCount', 1)">+</button>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>Moderate Reno (cabinets, counters):</label>
-                    <input type="number" id="kitchenModerate" value="1" min="0" max="10">
-                    <span class="cost-display" id="kitchenModerateCost">$15,000</span>
+                <div class="subcategory">
+                    <h3>Renovation Level</h3>
+                    <div class="input-group">
+                        <label>Light Refresh:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('kitchenLight', -1)">-</button>
+                            <input type="number" id="kitchenLight" value="0" min="0" max="10">
+                            <button class="increment-btn" onclick="changeValue('kitchenLight', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="kitchenLightCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Moderate Reno:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('kitchenModerate', -1)">-</button>
+                            <input type="number" id="kitchenModerate" value="1" min="0" max="10">
+                            <button class="increment-btn" onclick="changeValue('kitchenModerate', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="kitchenModerateCost">$15,000</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Full Gut:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('kitchenFull', -1)">-</button>
+                            <input type="number" id="kitchenFull" value="1" min="0" max="10">
+                            <button class="increment-btn" onclick="changeValue('kitchenFull', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="kitchenFullCost">$25,000</span>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>Full Gut Renovation:</label>
-                    <input type="number" id="kitchenFull" value="1" min="0" max="10">
-                    <span class="cost-display" id="kitchenFullCost">$25,000</span>
-                </div>
-            </div>
-            <div class="subcategory">
-                <h3>Kitchen Modifications</h3>
-                <div class="input-group">
-                    <label>Wall Removal (combine rooms):</label>
-                    <input type="number" id="wallRemoval" value="0" min="0" max="10">
-                    <span class="cost-display" id="wallRemovalCost">$0</span>
-                </div>
-                <div class="input-group">
-                    <label>New Load-Bearing Support:</label>
-                    <input type="number" id="loadBearing" value="0" min="0" max="5">
-                    <span class="cost-display" id="loadBearingCost">$0</span>
+                <div class="subcategory">
+                    <h3>Modifications</h3>
+                    <div class="input-group">
+                        <label>Wall Removal:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('wallRemoval', -1)">-</button>
+                            <input type="number" id="wallRemoval" value="0" min="0" max="10">
+                            <button class="increment-btn" onclick="changeValue('wallRemoval', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="wallRemovalCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Load-Bearing Support:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('loadBearing', -1)">-</button>
+                            <input type="number" id="loadBearing" value="0" min="0" max="5">
+                            <button class="increment-btn" onclick="changeValue('loadBearing', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="loadBearingCost">$0</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Plumbing -->
-        <div class="section">
-            <h2>Plumbing</h2>
-            <div class="input-group">
-                <label>New Main Water Line:</label>
-                <select id="newMainWater">
-                    <option value="0">Not Needed</option>
-                    <option value="1">Needed</option>
-                </select>
-                <span class="cost-display" id="newMainWaterCost">$0</span>
+        <div class="sections-grid three-col">
+            <!-- Plumbing -->
+            <div class="section">
+                <h2>Plumbing</h2>
+                <div class="input-group">
+                    <label>New Main Water:</label>
+                    <select id="newMainWater">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Needed</option>
+                    </select>
+                    <span class="cost-display" id="newMainWaterCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>New Sewer Line:</label>
+                    <select id="newSewerLine">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Needed</option>
+                    </select>
+                    <span class="cost-display" id="newSewerLineCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Add'l Bath Plumbing:</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('additionalBathPlumbing', -1)">-</button>
+                        <input type="number" id="additionalBathPlumbing" value="0" min="0" max="5">
+                        <button class="increment-btn" onclick="changeValue('additionalBathPlumbing', 1)">+</button>
+                    </div>
+                    <span class="cost-display" id="additionalBathPlumbingCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Whole House Repipe:</label>
+                    <select id="wholeHouseRepipe">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Needed</option>
+                    </select>
+                    <span class="cost-display" id="wholeHouseRepipeCost">$0</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label>New Sewer Line:</label>
-                <select id="newSewerLine">
-                    <option value="0">Not Needed</option>
-                    <option value="1">Needed</option>
-                </select>
-                <span class="cost-display" id="newSewerLineCost">$0</span>
+
+            <!-- Electrical -->
+            <div class="section">
+                <h2>Electrical</h2>
+                <div class="input-group">
+                    <label>Panel Upgrade:</label>
+                    <select id="panelUpgrade">
+                        <option value="0">Not Needed</option>
+                        <option value="1">200 Amp</option>
+                        <option value="2">400 Amp</option>
+                    </select>
+                    <span class="cost-display" id="panelUpgradeCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Whole House Rewire:</label>
+                    <select id="wholeHouseRewire">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Needed</option>
+                    </select>
+                    <span class="cost-display" id="wholeHouseRewireCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Additional Circuits:</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('additionalCircuits', -1)">-</button>
+                        <input type="number" id="additionalCircuits" value="0" min="0" max="20">
+                        <button class="increment-btn" onclick="changeValue('additionalCircuits', 1)">+</button>
+                    </div>
+                    <span class="cost-display" id="additionalCircuitsCost">$0</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label>Additional Bathroom Plumbing:</label>
-                <input type="number" id="additionalBathPlumbing" value="0" min="0" max="5">
-                <span class="cost-display" id="additionalBathPlumbingCost">$0</span>
-            </div>
-            <div class="input-group">
-                <label>Whole House Repipe:</label>
-                <select id="wholeHouseRepipe">
-                    <option value="0">Not Needed</option>
-                    <option value="1">Needed</option>
-                </select>
-                <span class="cost-display" id="wholeHouseRepipeCost">$0</span>
+
+            <!-- HVAC -->
+            <div class="section">
+                <h2>HVAC</h2>
+                <div class="input-group">
+                    <label>New HVAC Systems:</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('newHVAC', -1)">-</button>
+                        <input type="number" id="newHVAC" value="0" min="0" max="5">
+                        <button class="increment-btn" onclick="changeValue('newHVAC', 1)">+</button>
+                    </div>
+                    <span class="cost-display" id="newHVACCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Ductwork (linear ft):</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('ductwork', -10)">-</button>
+                        <input type="number" id="ductwork" value="0" min="0" max="500" step="10">
+                        <button class="increment-btn" onclick="changeValue('ductwork', 10)">+</button>
+                    </div>
+                    <span class="cost-display" id="ductworkCost">$0</span>
+                </div>
             </div>
         </div>
 
-        <!-- Electrical -->
-        <div class="section">
-            <h2>Electrical</h2>
-            <div class="input-group">
-                <label>Panel Upgrade:</label>
-                <select id="panelUpgrade">
-                    <option value="0">Not Needed</option>
-                    <option value="1">200 Amp Panel</option>
-                    <option value="2">400 Amp Panel</option>
-                </select>
-                <span class="cost-display" id="panelUpgradeCost">$0</span>
+        <div class="sections-grid">
+            <!-- Basement -->
+            <div class="section">
+                <h2>Basement</h2>
+                <div class="input-group">
+                    <label>Basement Dig-Out (sq ft):</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('basementDigOut', -100)">-</button>
+                        <input type="number" id="basementDigOut" value="0" min="0" max="2000" step="100">
+                        <button class="increment-btn" onclick="changeValue('basementDigOut', 100)">+</button>
+                    </div>
+                    <span class="cost-display" id="basementDigOutCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Basement Finishing (sq ft):</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('basementFinishing', -100)">-</button>
+                        <input type="number" id="basementFinishing" value="0" min="0" max="2000" step="100">
+                        <button class="increment-btn" onclick="changeValue('basementFinishing', 100)">+</button>
+                    </div>
+                    <span class="cost-display" id="basementFinishingCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Waterproofing:</label>
+                    <select id="waterproofing">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Interior Only</option>
+                        <option value="2">Exterior</option>
+                    </select>
+                    <span class="cost-display" id="waterproofingCost">$0</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label>Whole House Rewire:</label>
-                <select id="wholeHouseRewire">
-                    <option value="0">Not Needed</option>
-                    <option value="1">Needed</option>
-                </select>
-                <span class="cost-display" id="wholeHouseRewireCost">$0</span>
-            </div>
-            <div class="input-group">
-                <label>Additional Circuits:</label>
-                <input type="number" id="additionalCircuits" value="0" min="0" max="20">
-                <span class="cost-display" id="additionalCircuitsCost">$0</span>
-            </div>
-        </div>
 
-        <!-- Basement -->
-        <div class="section">
-            <h2>Basement</h2>
-            <div class="input-group">
-                <label>Basement Dig-Out (sq ft):</label>
-                <input type="number" id="basementDigOut" value="0" min="0" max="2000">
-                <span class="cost-display" id="basementDigOutCost">$0</span>
-            </div>
-            <div class="input-group">
-                <label>Basement Finishing (sq ft):</label>
-                <input type="number" id="basementFinishing" value="0" min="0" max="2000">
-                <span class="cost-display" id="basementFinishingCost">$0</span>
-            </div>
-            <div class="input-group">
-                <label>Waterproofing:</label>
-                <select id="waterproofing">
-                    <option value="0">Not Needed</option>
-                    <option value="1">Interior Only</option>
-                    <option value="2">Exterior Waterproofing</option>
-                </select>
-                <span class="cost-display" id="waterproofingCost">$0</span>
-            </div>
-        </div>
-
-        <!-- HVAC -->
-        <div class="section">
-            <h2>HVAC</h2>
-            <div class="input-group">
-                <label>New HVAC Systems:</label>
-                <input type="number" id="newHVAC" value="0" min="0" max="5">
-                <span class="cost-display" id="newHVACCost">$0</span>
-            </div>
-            <div class="input-group">
-                <label>Ductwork (linear feet):</label>
-                <input type="number" id="ductwork" value="0" min="0" max="500">
-                <span class="cost-display" id="ductworkCost">$0</span>
-            </div>
-        </div>
-
-        <!-- Structural -->
-        <div class="section">
-            <h2>Structural</h2>
-            <div class="input-group">
-                <label>Foundation Repair:</label>
-                <select id="foundationRepair">
-                    <option value="0">Not Needed</option>
-                    <option value="1">Minor Repairs</option>
-                    <option value="2">Major Repairs</option>
-                </select>
-                <span class="cost-display" id="foundationRepairCost">$0</span>
-            </div>
-            <div class="input-group">
-                <label>Roof Replacement:</label>
-                <select id="roofReplacement">
-                    <option value="0">Not Needed</option>
-                    <option value="1">Partial Roof</option>
-                    <option value="2">Full Roof</option>
-                </select>
-                <span class="cost-display" id="roofReplacementCost">$0</span>
-            </div>
-            <div class="input-group">
-                <label>Siding Replacement (sq ft):</label>
-                <input type="number" id="sidingReplacement" value="0" min="0" max="5000">
-                <span class="cost-display" id="sidingReplacementCost">$0</span>
+            <!-- Structural -->
+            <div class="section">
+                <h2>Structural</h2>
+                <div class="input-group">
+                    <label>Foundation Repair:</label>
+                    <select id="foundationRepair">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Minor Repairs</option>
+                        <option value="2">Major Repairs</option>
+                    </select>
+                    <span class="cost-display" id="foundationRepairCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Roof Replacement:</label>
+                    <select id="roofReplacement">
+                        <option value="0">Not Needed</option>
+                        <option value="1">Partial Roof</option>
+                        <option value="2">Full Roof</option>
+                    </select>
+                    <span class="cost-display" id="roofReplacementCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Siding Replace (sq ft):</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('sidingReplacement', -100)">-</button>
+                        <input type="number" id="sidingReplacement" value="0" min="0" max="5000" step="100">
+                        <button class="increment-btn" onclick="changeValue('sidingReplacement', 100)">+</button>
+                    </div>
+                    <span class="cost-display" id="sidingReplacementCost">$0</span>
+                </div>
             </div>
         </div>
 
         <!-- Roof Modifications & Space Addition -->
-        <div class="section">
-            <h2>Roof Modifications & Space Addition</h2>
-            <div class="subcategory">
-                <h3>Roof Line Alterations</h3>
-                <div class="input-group">
-                    <label>Roof Raise/Square Off (sq ft gained):</label>
-                    <input type="number" id="roofRaise" value="0" min="0" max="1000">
-                    <span class="cost-display" id="roofRaiseCost">$0</span>
-                </div>
-                <div class="input-group">
-                    <label>Dormer Addition (small):</label>
-                    <input type="number" id="dormerSmall" value="0" min="0" max="5">
-                    <span class="cost-display" id="dormerSmallCost">$0</span>
-                </div>
-                <div class="input-group">
-                    <label>Dormer Addition (large/shed):</label>
-                    <input type="number" id="dormerLarge" value="0" min="0" max="3">
-                    <span class="cost-display" id="dormerLargeCost">$0</span>
-                </div>
-                <div class="input-group">
-                    <label>Pop-Top Addition (sq ft):</label>
-                    <input type="number" id="popTop" value="0" min="0" max="1000">
-                    <span class="cost-display" id="popTopCost">$0</span>
-                </div>
-            </div>
-            <div class="subcategory">
-                <h3>Attic Conversion</h3>
-                <div class="input-group">
-                    <label>Attic Finishing (sq ft):</label>
-                    <input type="number" id="atticFinishing" value="0" min="0" max="800">
-                    <span class="cost-display" id="atticFinishingCost">$0</span>
-                </div>
-                <div class="input-group">
-                    <label>Attic Stair Installation:</label>
-                    <select id="atticStairs">
-                        <option value="0">Not Needed</option>
-                        <option value="1">Standard Stairs</option>
-                        <option value="2">Custom/Spiral Stairs</option>
-                    </select>
-                    <span class="cost-display" id="atticStairsCost">$0</span>
-                </div>
-                <div class="input-group">
-                    <label>Skylights:</label>
-                    <input type="number" id="skylights" value="0" min="0" max="10">
-                    <span class="cost-display" id="skylightsCost">$0</span>
+        <div class="sections-grid">
+            <div class="section">
+                <h2>Roof Modifications</h2>
+                <div class="subcategory">
+                    <h3>Roof Line Alterations</h3>
+                    <div class="input-group">
+                        <label>Roof Raise (sq ft gained):</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('roofRaise', -100)">-</button>
+                            <input type="number" id="roofRaise" value="0" min="0" max="1000" step="100">
+                            <button class="increment-btn" onclick="changeValue('roofRaise', 100)">+</button>
+                        </div>
+                        <span class="cost-display" id="roofRaiseCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Small Dormer:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('dormerSmall', -1)">-</button>
+                            <input type="number" id="dormerSmall" value="0" min="0" max="5">
+                            <button class="increment-btn" onclick="changeValue('dormerSmall', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="dormerSmallCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Large/Shed Dormer:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('dormerLarge', -1)">-</button>
+                            <input type="number" id="dormerLarge" value="0" min="0" max="3">
+                            <button class="increment-btn" onclick="changeValue('dormerLarge', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="dormerLargeCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Pop-Top (sq ft):</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('popTop', -100)">-</button>
+                            <input type="number" id="popTop" value="0" min="0" max="1000" step="100">
+                            <button class="increment-btn" onclick="changeValue('popTop', 100)">+</button>
+                        </div>
+                        <span class="cost-display" id="popTopCost">$0</span>
+                    </div>
                 </div>
             </div>
-            <div class="notes">
-                <strong>Boston-Specific Notes:</strong> Roof modifications often require permits and structural engineering. Consider setback requirements and height restrictions. Many Boston properties can gain 200-400 sq ft by squaring off sloped roofs.
+
+            <div class="section">
+                <h2>Attic & Finishing</h2>
+                <div class="subcategory">
+                    <h3>Attic Conversion</h3>
+                    <div class="input-group">
+                        <label>Attic Finishing (sq ft):</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('atticFinishing', -100)">-</button>
+                            <input type="number" id="atticFinishing" value="0" min="0" max="800" step="100">
+                            <button class="increment-btn" onclick="changeValue('atticFinishing', 100)">+</button>
+                        </div>
+                        <span class="cost-display" id="atticFinishingCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Attic Stairs:</label>
+                        <select id="atticStairs">
+                            <option value="0">Not Needed</option>
+                            <option value="1">Standard</option>
+                            <option value="2">Custom/Spiral</option>
+                        </select>
+                        <span class="cost-display" id="atticStairsCost">$0</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Skylights:</label>
+                        <div class="number-input-container">
+                            <button class="increment-btn" onclick="changeValue('skylights', -1)">-</button>
+                            <input type="number" id="skylights" value="0" min="0" max="10">
+                            <button class="increment-btn" onclick="changeValue('skylights', 1)">+</button>
+                        </div>
+                        <span class="cost-display" id="skylightsCost">$0</span>
+                    </div>
+                </div>
+                <div class="notes">
+                    <strong>Boston Note:</strong> Roof mods often require permits. Many properties can gain 200-400 sq ft by squaring off slopes.
+                </div>
             </div>
         </div>
 
-        <!-- Flooring -->
-        <div class="section">
-            <h2>Flooring</h2>
-            <div class="input-group">
-                <label>Hardwood Refinishing (sq ft):</label>
-                <input type="number" id="hardwoodRefinish" value="0" min="0" max="3000">
-                <span class="cost-display" id="hardwoodRefinishCost">$0</span>
+        <div class="sections-grid three-col">
+            <!-- Flooring -->
+            <div class="section">
+                <h2>Flooring</h2>
+                <div class="input-group">
+                    <label>Hardwood Refinish (sq ft):</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('hardwoodRefinish', -100)">-</button>
+                        <input type="number" id="hardwoodRefinish" value="0" min="0" max="3000" step="100">
+                        <button class="increment-btn" onclick="changeValue('hardwoodRefinish', 100)">+</button>
+                    </div>
+                    <span class="cost-display" id="hardwoodRefinishCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>New Flooring (sq ft):</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('newFlooring', -100)">-</button>
+                        <input type="number" id="newFlooring" value="0" min="0" max="3000" step="100">
+                        <button class="increment-btn" onclick="changeValue('newFlooring', 100)">+</button>
+                    </div>
+                    <span class="cost-display" id="newFlooringCost">$0</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label>New Flooring (sq ft):</label>
-                <input type="number" id="newFlooring" value="0" min="0" max="3000">
-                <span class="cost-display" id="newFlooringCost">$0</span>
-            </div>
-        </div>
 
-        <!-- Windows & Doors -->
-        <div class="section">
-            <h2>Windows & Doors</h2>
-            <div class="input-group">
-                <label>Window Replacement:</label>
-                <input type="number" id="windowReplacement" value="0" min="0" max="50">
-                <span class="cost-display" id="windowReplacementCost">$0</span>
+            <!-- Windows & Doors -->
+            <div class="section">
+                <h2>Windows & Doors</h2>
+                <div class="input-group">
+                    <label>Window Replacement:</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('windowReplacement', -1)">-</button>
+                        <input type="number" id="windowReplacement" value="0" min="0" max="50">
+                        <button class="increment-btn" onclick="changeValue('windowReplacement', 1)">+</button>
+                    </div>
+                    <span class="cost-display" id="windowReplacementCost">$0</span>
+                </div>
+                <div class="input-group">
+                    <label>Door Replacement:</label>
+                    <div class="number-input-container">
+                        <button class="increment-btn" onclick="changeValue('doorReplacement', -1)">-</button>
+                        <input type="number" id="doorReplacement" value="0" min="0" max="20">
+                        <button class="increment-btn" onclick="changeValue('doorReplacement', 1)">+</button>
+                    </div>
+                    <span class="cost-display" id="doorReplacementCost">$0</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label>Door Replacement:</label>
-                <input type="number" id="doorReplacement" value="0" min="0" max="20">
-                <span class="cost-display" id="doorReplacementCost">$0</span>
-            </div>
+
+            <!-- Spacer for layout -->
+            <div></div>
         </div>
 
         <!-- Totals -->
@@ -450,11 +669,24 @@
             doorReplacement: 800
         };
 
+        // Function to change values with + and - buttons
+        function changeValue(inputId, change) {
+            const input = document.getElementById(inputId);
+            const currentValue = parseInt(input.value) || 0;
+            const min = parseInt(input.min) || 0;
+            const max = parseInt(input.max) || 9999;
+            const newValue = Math.max(min, Math.min(max, currentValue + change));
+            input.value = newValue;
+            
+            // Trigger the input event to update costs
+            input.dispatchEvent(new Event('input'));
+        }
+
         function updateCost(elementId, costKey, multiplier = 1) {
             const element = document.getElementById(elementId);
             const value = parseInt(element.value) || 0;
             const cost = Array.isArray(COSTS[costKey]) ? COSTS[costKey][value] : COSTS[costKey] * value * multiplier;
-            document.getElementById(elementId + 'Cost').textContent = '$' + cost.toLocaleString();
+            document.getElementById(elementId + 'Cost').textContent = ' + cost.toLocaleString();
             updateTotal();
         }
 
