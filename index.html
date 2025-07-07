@@ -686,7 +686,7 @@
             const element = document.getElementById(elementId);
             const value = parseInt(element.value) || 0;
             const cost = Array.isArray(COSTS[costKey]) ? COSTS[costKey][value] : COSTS[costKey] * value * multiplier;
-            document.getElementById(elementId + 'Cost').textContent = ' + cost.toLocaleString();
+            document.getElementById(elementId + 'Cost').textContent = '$' + cost.toLocaleString();
             updateTotal();
         }
 
